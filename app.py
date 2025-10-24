@@ -9,7 +9,7 @@ load_dotenv()
 app = Flask(__name__)
 
 # Configure CORS to allow requests from Vercel
-CORS(app, origins=["*"])  # In production, replace "*" with your Vercel domain
+CORS(app, origins=[https://dcoderaibuddy.vercel.app/])  # In production, replace "*" with your Vercel domain
 
 # Get API key from environment
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
