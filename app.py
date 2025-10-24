@@ -8,8 +8,14 @@ load_dotenv()
 
 app = Flask(__name__)
 
-# Configure CORS to allow requests from Vercel
-CORS(app, origins=["https://dcoderaibuddy.vercel.app/"])  # In production, replace "*" with your Vercel domain
+# ✅ CORRECT CORS Configuration
+CORS(app, resources={
+    r"/*": {
+        "origins": "https://dcoderaibuddy.vercel.app/",  # In production, replace with your Vercel domain
+        "methods": ["GET", "POST", "OPTIONS"],
+        "allow_headers": ["Content-Type", "Authorization"]
+    }
+})
 
 # Get API key from environment
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
@@ -36,25 +42,17 @@ def root():
         "status": "running"
     })
 
-@app.route('/ask', methods=["POST", "OPTIONS"])
+@app.route('/ask', methods=["POST"])  # ✅ Removed OPTIONS - flask-cors handles it
 def ask_gemini():
-    if request.method == 'OPTIONS':
-        # CORS preflight request
-        response = jsonify({'status': 'ok'})
-        response.headers.add("Access-Control-Allow-Origin", "*")
-        response.headers.add("Access-Control-Allow-Headers", "Content-Type")
-        response.headers.add("Access-Control-Allow-Methods", "POST, OPTIONS")
-        return response, 200
-
     data = request.get_json() or {}
     question = (data.get("question") or "").strip()
-
+    
     if not question:
         return jsonify({"answer": "Please enter a valid question."}), 400
     
     if not GEMINI_API_KEY:
         return jsonify({"answer": "⚠️ Server configuration error: GEMINI_API_KEY not found. Please contact administrator."}), 500
-
+    
     # Enhanced payload for better responses
     payload = {
         "contents": [{
@@ -69,12 +67,12 @@ def ask_gemini():
             "maxOutputTokens": 1000,
         }
     }
-
+    
     try:
         r = requests.post(GEMINI_URL, json=payload, timeout=30)
         r.raise_for_status()
         result = r.json()
-
+        
         # Safely extract the model's text
         answer = (
             result.get("candidates", [{}])[0]
