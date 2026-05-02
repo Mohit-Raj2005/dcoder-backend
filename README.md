@@ -43,7 +43,7 @@ This backend is configured for deployment on Render, Railway, or similar platfor
 
 ## Project Structure
 dcoder-backend/
-│── app.py              # Main Flask application
-│── requirements.txt    # Python dependencies
-│── README.md           # Project documentation
-│── .gitignore          # Git ignore rules
+- │── app.py              # Main Flask application
+- │── requirements.txt    # Python dependencies
+- │── README.md           # Project documentation
+- │── .gitignore          # Git ignore rules
