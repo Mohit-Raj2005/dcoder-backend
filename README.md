@@ -42,7 +42,7 @@ This backend is configured for deployment on Render, Railway, or similar platfor
 3. Copy the key and use it as environment variable
 
 ## Project Structure
-dcoder-backend/
+- dcoder-backend/
 - │── app.py              # Main Flask application
 - │── requirements.txt    # Python dependencies
 - │── README.md           # Project documentation
