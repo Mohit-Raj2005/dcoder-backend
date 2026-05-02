@@ -40,3 +40,10 @@ This backend is configured for deployment on Render, Railway, or similar platfor
 1. Go to [Google AI Studio](https://aistudio.google.com/app/apikey)
 2. Create a new API key
 3. Copy the key and use it as environment variable
+
+## Project Structure
+dcoder-backend/
+│── app.py              # Main Flask application
+│── requirements.txt    # Python dependencies
+│── README.md           # Project documentation
+│── .gitignore          # Git ignore rules
